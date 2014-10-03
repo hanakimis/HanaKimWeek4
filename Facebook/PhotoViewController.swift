@@ -17,8 +17,13 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
         
         imageView.image = self.image
+        imageView.hidden = true
     }
 
+    override func viewDidAppear(animated: Bool) {
+        imageView.hidden = false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

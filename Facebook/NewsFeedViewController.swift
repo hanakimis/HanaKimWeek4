@@ -21,10 +21,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
         feedImageView.alpha = 0
-
-        // Configure the content size of the scroll view
         scrollView.contentSize = CGSizeMake(320, feedImageView.image!.size.height)
         
     }
@@ -94,25 +91,36 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         // The value here should be the duration of the animations scheduled in the animationTransition method
-        return 0.4
+        return 1
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        println("animating transition")
         var containerView = transitionContext.containerView()
         var toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         var fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         
+        
         if (isPresenting) {
+            var window = UIApplication.sharedApplication().keyWindow
+            var thisFrame = window.convertRect(clickedImage.frame, fromView: scrollView)
+            var copyImageView = UIImageView(frame: thisFrame)
+            copyImageView.image = clickedImage.image
+            
+            window.addSubview(copyImageView)
+            
             containerView.addSubview(toViewController.view)
             toViewController.view.alpha = 0
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
+            UIView.animateWithDuration(1, animations: { () -> Void in
+                copyImageView.transform = CGAffineTransformMakeScale(320/copyImageView.frame.width, 476/copyImageView.frame.height)
+                copyImageView.frame.origin = CGPoint(x: 0.0, y: 55.0)
+                
                 toViewController.view.alpha = 1
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
+                    copyImageView.removeFromSuperview()
             }
         } else {
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
+            UIView.animateWithDuration(1, animations: { () -> Void in
                 fromViewController.view.alpha = 0
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
