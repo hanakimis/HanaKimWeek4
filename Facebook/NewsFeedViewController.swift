@@ -91,14 +91,13 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         // The value here should be the duration of the animations scheduled in the animationTransition method
-        return 1
+        return 0.4
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         var containerView = transitionContext.containerView()
         var toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         var fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        
         
         if (isPresenting) {
             var window = UIApplication.sharedApplication().keyWindow
@@ -110,21 +109,34 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             
             containerView.addSubview(toViewController.view)
             toViewController.view.alpha = 0
-            UIView.animateWithDuration(1, animations: { () -> Void in
+            UIView.animateWithDuration(0.4, animations: { () -> Void in
                 copyImageView.transform = CGAffineTransformMakeScale(320/copyImageView.frame.width, 476/copyImageView.frame.height)
                 copyImageView.frame.origin = CGPoint(x: 0.0, y: 55.0)
-                
                 toViewController.view.alpha = 1
+                
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
                     copyImageView.removeFromSuperview()
             }
+            
         } else {
-            UIView.animateWithDuration(1, animations: { () -> Void in
+            var window = UIApplication.sharedApplication().keyWindow
+            var copyImageView = UIImageView(image: clickedImage.image)
+            
+            copyImageView.frame.origin = CGPoint(x: 0.0, y: 55.0)
+            copyImageView.frame.size = CGSize(width: 320, height: 476)
+            
+            window.addSubview(copyImageView)
+            
+            UIView.animateWithDuration(0.4, animations: { () -> Void in
+                copyImageView.frame.size = CGSize(width: self.clickedImage.frame.width, height: self.clickedImage.frame.height)
+                copyImageView.frame = window.convertRect(self.clickedImage.frame, fromView: self.scrollView)
                 fromViewController.view.alpha = 0
+                
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
                     fromViewController.view.removeFromSuperview()
+                    copyImageView.removeFromSuperview()
             }
         }
     }

@@ -10,6 +10,7 @@ import UIKit
 
 class PhotoViewController: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     var image: UIImage!
     
