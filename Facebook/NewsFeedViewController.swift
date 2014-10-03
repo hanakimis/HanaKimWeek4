@@ -36,8 +36,7 @@ class NewsFeedViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var initalVal = defaults.integerForKey("first_time")
         
-        if (initalVal == 0) {
-            println("first time")
+     /*   if (initalVal == 0) {
             defaults.setInteger(1, forKey: "first_time")
             defaults.synchronize()
             
@@ -45,7 +44,6 @@ class NewsFeedViewController: UIViewController {
             scrollView.contentSize = CGSizeMake(320, feedImageView.image!.size.height)
 
         } else {
-            println("waht crap")
             feedImageView.image = UIImage(named: "home_feed")
             scrollView.contentSize = CGSizeMake(320, feedImageView.image!.size.height)
         }
@@ -61,7 +59,9 @@ class NewsFeedViewController: UIViewController {
 
             })
         }
+        */
         
+        feedImageView.alpha = 1
         
         scrollView.contentInset.top = 0
         scrollView.contentInset.bottom = 50
