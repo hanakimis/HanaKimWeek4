@@ -35,7 +35,10 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         var defaults = NSUserDefaults.standardUserDefaults()
         var initalVal = defaults.integerForKey("first_time")
         
-     /*   if (initalVal == 0) {
+     /*
+        // Comment out this section so don't have to wait ot test photo stuff
+        
+        if (initalVal == 0) {
             defaults.setInteger(1, forKey: "first_time")
             defaults.synchronize()
             
@@ -99,19 +102,37 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         var toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         var fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         
+        //var tempImage =
+        
         if (isPresenting) {
             var window = UIApplication.sharedApplication().keyWindow
             var thisFrame = window.convertRect(clickedImage.frame, fromView: scrollView)
             var copyImageView = UIImageView(frame: thisFrame)
             copyImageView.image = clickedImage.image
             
+            
             window.addSubview(copyImageView)
             
             containerView.addSubview(toViewController.view)
             toViewController.view.alpha = 0
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                copyImageView.transform = CGAffineTransformMakeScale(320/copyImageView.frame.width, 476/copyImageView.frame.height)
-                copyImageView.frame.origin = CGPoint(x: 0.0, y: 55.0)
+                var scale = 320/copyImageView.frame.width
+
+                
+                /*
+
+                Ideally, we should have an if statment here that if the image is too wide, then scale it correctly with the width at 320, and have the y position centered with the window.
+                
+                Otherwise, if the image is too tall, we will center and scroll
+                
+                if the image is too narrow (thinner than 320), then I guess we can stretch it out to 320?
+                
+                */
+                
+                
+                
+                copyImageView.transform = CGAffineTransformMakeScale(scale, scale)
+                copyImageView.center = window.center
                 toViewController.view.alpha = 1
                 
                 }) { (finished: Bool) -> Void in
