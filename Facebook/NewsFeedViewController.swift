@@ -110,29 +110,21 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             var copyImageView = UIImageView(frame: thisFrame)
             copyImageView.image = clickedImage.image
             
-            
+            copyImageView.clipsToBounds = true
+            copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
+
             window.addSubview(copyImageView)
             
             containerView.addSubview(toViewController.view)
+            
             toViewController.view.alpha = 0
+            
+            
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                var scale = 320/copyImageView.frame.width
-
-                
-                /*
-
-                Ideally, we should have an if statment here that if the image is too wide, then scale it correctly with the width at 320, and have the y position centered with the window.
-                
-                Otherwise, if the image is too tall, we will center and scroll
-                
-                if the image is too narrow (thinner than 320), then I guess we can stretch it out to 320?
-                
-                */
-                
-                
-                
-                copyImageView.transform = CGAffineTransformMakeScale(scale, scale)
+                copyImageView.frame.size.width = 320
+                copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
                 copyImageView.center = window.center
+                
                 toViewController.view.alpha = 1
                 
                 }) { (finished: Bool) -> Void in
@@ -143,16 +135,21 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         } else {
             var window = UIApplication.sharedApplication().keyWindow
             var copyImageView = UIImageView(image: clickedImage.image)
-            
-            copyImageView.frame.origin = CGPoint(x: 0.0, y: 55.0)
-            copyImageView.frame.size = CGSize(width: 320, height: 476)
+            copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
+            copyImageView.clipsToBounds = true
+
+            var scale = 320/copyImageView.frame.width
+
+            copyImageView.center = window.center
+            copyImageView.transform = CGAffineTransformMakeScale(scale, scale)            
             
             window.addSubview(copyImageView)
+            
+            fromViewController.view.alpha = 0
             
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 copyImageView.frame.size = CGSize(width: self.clickedImage.frame.width, height: self.clickedImage.frame.height)
                 copyImageView.frame = window.convertRect(self.clickedImage.frame, fromView: self.scrollView)
-                fromViewController.view.alpha = 0
                 
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
@@ -173,9 +170,6 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         return self
     }
 
-    
-    
-    
     func delay(delay:Double, closure:()->()) {
         dispatch_after(
             dispatch_time(

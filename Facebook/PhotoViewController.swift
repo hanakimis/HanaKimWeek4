@@ -24,7 +24,9 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         imageView.hidden = true
         
         var scale = 320/self.image.size.width
-        imageView.transform = CGAffineTransformMakeScale(scale, scale)
+        //imageView.transform = CGAffineTransformMakeScale(scale, scale)
+        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        
         imageView.center = view.center
         
         scrollView.contentSize = CGSize(width: 320, height: 570)
@@ -51,7 +53,9 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView!,
         willDecelerate decelerate: Bool) {
-
+            if (offset > 100) {
+                
+            }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
