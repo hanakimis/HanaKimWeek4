@@ -137,20 +137,22 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             var copyImageView = UIImageView(image: clickedImage.image)
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
             copyImageView.clipsToBounds = true
-
-            var scale = 320/copyImageView.frame.width
-
-            copyImageView.center = window.center
-            copyImageView.transform = CGAffineTransformMakeScale(scale, scale)            
+            var photoViewController = fromViewController as PhotoViewController
             
+            copyImageView.frame.size.width = 320
+            copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
+            
+            
+            
+            copyImageView.center.y = window.center.y
+            copyImageView.center.y = window.center.y - photoViewController.offset
+
             window.addSubview(copyImageView)
             
             fromViewController.view.alpha = 0
-            
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                copyImageView.frame.size = CGSize(width: self.clickedImage.frame.width, height: self.clickedImage.frame.height)
                 copyImageView.frame = window.convertRect(self.clickedImage.frame, fromView: self.scrollView)
-                
+
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)
                     fromViewController.view.removeFromSuperview()

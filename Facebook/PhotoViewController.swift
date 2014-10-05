@@ -12,6 +12,9 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var controlsImageView: UIImageView!
+    
     var image: UIImage!
     var offset: CGFloat!
     var scale: CGFloat!
@@ -23,8 +26,6 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         imageView.image = self.image
         imageView.hidden = true
         
-        var scale = 320/self.image.size.width
-        //imageView.transform = CGAffineTransformMakeScale(scale, scale)
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
         imageView.center = view.center
@@ -32,6 +33,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = CGSize(width: 320, height: 570)
         scrollView.delegate = self
         view.backgroundColor = UIColor (white: 0.0, alpha: 0.0)
+        offset = 0
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -49,12 +51,15 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
         originalOrigin = imageView.frame.origin
+        
+        doneButton.hidden = true
+        controlsImageView.hidden = true
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView!,
         willDecelerate decelerate: Bool) {
-            if (offset > 100) {
-                
+            if (abs(offset) > 100) {
+                dismissViewControllerAnimated(true, completion: nil)
             }
     }
     
