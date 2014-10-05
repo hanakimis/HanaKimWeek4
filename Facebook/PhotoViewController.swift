@@ -60,11 +60,12 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         willDecelerate decelerate: Bool) {
             if (abs(offset) > 100) {
                 dismissViewControllerAnimated(true, completion: nil)
-            }
+            } 
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
-
+        doneButton.hidden = false
+        controlsImageView.hidden = false
     }
 
     @IBAction func onTapDone(sender: AnyObject) {

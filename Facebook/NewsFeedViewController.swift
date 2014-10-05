@@ -141,9 +141,6 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             
             copyImageView.frame.size.width = 320
             copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
-            
-            
-            
             copyImageView.center.y = window.center.y
             copyImageView.center.y = window.center.y - photoViewController.offset
 
