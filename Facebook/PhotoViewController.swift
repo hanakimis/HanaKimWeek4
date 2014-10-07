@@ -33,7 +33,6 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         imageView.center = view.center
         
-        
         for i in 0...(imageCount-1) {
             imageViews.append(UIImageView(image: images[i]))
             imageViews[i].hidden = true
@@ -105,9 +104,6 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         default:
             whichImage = 0
         }
-        println("which Image: \(whichImage)")
-
-        
     }
 
     @IBAction func onTapDone(sender: AnyObject) {
