@@ -149,8 +149,6 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         } else {
             var window = UIApplication.sharedApplication().keyWindow
             var photoViewController = fromViewController as PhotoViewController
-            
-            
             var copyImageView = UIImageView(image: clickedImage.image)
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
             copyImageView.clipsToBounds = true

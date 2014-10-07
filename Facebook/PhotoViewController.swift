@@ -51,6 +51,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         scrollView.maximumZoomScale = 3
         scrollView.pagingEnabled = true
         scrollView.contentSize = CGSize(width: 320*imageCount, height: 570)
+        scrollView.contentOffset = CGPoint(x: 320*whichImage, y: 0)
 
         view.backgroundColor = UIColor (white: 0.0, alpha: 0.0)
         scrollOffset = 0
