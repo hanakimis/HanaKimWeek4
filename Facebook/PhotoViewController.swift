@@ -32,10 +32,15 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         
         scrollView.contentSize = CGSize(width: 320, height: 570)
         scrollView.delegate = self
+        scrollView.maximumZoomScale = 3
         view.backgroundColor = UIColor (white: 0.0, alpha: 0.0)
         offset = 0
     }
 
+    func viewForZoomingInScrollView(scrollView: UIScrollView!) -> UIView! {
+        return imageView
+    }
+    
     override func viewDidAppear(animated: Bool) {
         imageView.hidden = false
     }
@@ -60,7 +65,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         willDecelerate decelerate: Bool) {
             if (abs(offset) > 100) {
                 dismissViewControllerAnimated(true, completion: nil)
-            } 
+            }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {

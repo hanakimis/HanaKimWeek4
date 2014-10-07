@@ -87,7 +87,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             destinationViewController.transitioningDelegate = self
             destinationViewController.image = self.clickedImage.image
         default:
-            println()
+            println("I... am only ready for the segue to the photo detail view")
         }
     }
     
@@ -102,23 +102,18 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         var toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         var fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         
-        //var tempImage =
-        
         if (isPresenting) {
             var window = UIApplication.sharedApplication().keyWindow
             var thisFrame = window.convertRect(clickedImage.frame, fromView: scrollView)
             var copyImageView = UIImageView(frame: thisFrame)
-            copyImageView.image = clickedImage.image
             
+            copyImageView.image = clickedImage.image
             copyImageView.clipsToBounds = true
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
-
             window.addSubview(copyImageView)
             
             containerView.addSubview(toViewController.view)
-            
             toViewController.view.alpha = 0
-            
             
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 copyImageView.frame.size.width = 320
@@ -141,9 +136,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             
             copyImageView.frame.size.width = 320
             copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
-            copyImageView.center.y = window.center.y
             copyImageView.center.y = window.center.y - photoViewController.offset
-
             window.addSubview(copyImageView)
             
             fromViewController.view.alpha = 0
