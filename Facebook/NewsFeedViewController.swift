@@ -149,7 +149,28 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         } else {
             var window = UIApplication.sharedApplication().keyWindow
             var photoViewController = fromViewController as PhotoViewController
-            var copyImageView = UIImageView(image: clickedImage.image)
+            var copyImageView: UIImageView!
+            var toFrame: CGRect!
+            switch photoViewController.whichImage {
+            case 0:
+                copyImageView = UIImageView(image: imageOne.image)
+                toFrame = imageOne.frame
+            case 1:
+                copyImageView = UIImageView(image: imageTwo.image)
+                toFrame = imageTwo.frame
+            case 2:
+                copyImageView = UIImageView(image: imageThree.image)
+                toFrame = imageThree.frame
+            case 3:
+                copyImageView = UIImageView(image: imageFour.image)
+                toFrame = imageFour.frame
+            case 4:
+                copyImageView = UIImageView(image: imageFive.image)
+                toFrame = imageFive.frame
+            default:
+                copyImageView = UIImageView(image: clickedImage.image)
+                println("there is an error... unexpected image number")
+            }
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
             copyImageView.clipsToBounds = true
             
@@ -160,7 +181,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             
             fromViewController.view.alpha = 0
             UIView.animateWithDuration(0.4, animations: { () -> Void in
-                copyImageView.frame = window.convertRect(self.clickedImage.frame, fromView: self.scrollView)
+                copyImageView.frame = window.convertRect(toFrame, fromView: self.scrollView)
 
                 }) { (finished: Bool) -> Void in
                     transitionContext.completeTransition(true)

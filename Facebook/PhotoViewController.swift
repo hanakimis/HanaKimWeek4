@@ -90,6 +90,24 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
         doneButton.hidden = false
         controlsImageView.hidden = false
+        
+        switch scrollView.contentOffset.x {
+        case 0.0:
+            whichImage = 0
+        case 320.0:
+            whichImage = 1
+        case 640.0:
+            whichImage = 2
+        case 960.0:
+            whichImage = 3
+        case 1280.0:
+            whichImage = 4
+        default:
+            whichImage = 0
+        }
+        println("which Image: \(whichImage)")
+
+        
     }
 
     @IBAction func onTapDone(sender: AnyObject) {
