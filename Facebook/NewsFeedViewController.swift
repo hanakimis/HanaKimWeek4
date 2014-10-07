@@ -13,9 +13,15 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var feedImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var imageOne: UIImageView!
+    @IBOutlet weak var imageTwo: UIImageView!
+    @IBOutlet weak var imageThree: UIImageView!
+    @IBOutlet weak var imageFour: UIImageView!
+    @IBOutlet weak var imageFive: UIImageView!
     
     var isPresenting: Bool = true
     var clickedImage: UIImageView!
+    var whichImage = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +39,14 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         var defaults = NSUserDefaults.standardUserDefaults()
         var initalVal = defaults.integerForKey("first_time")
         
-     /*
-        // Comment out this section so don't have to wait ot test photo stuff
+        imageOne.tag = 0
+        imageTwo.tag = 1
+        imageThree.tag = 2
+        imageFour.tag = 3
+        imageFive.tag = 4
         
+        // Comment out this section so don't have to wait ot test photo stuff
+        /* ***********************************************
         if (initalVal == 0) {
             defaults.setInteger(1, forKey: "first_time")
             defaults.synchronize()
@@ -59,8 +70,8 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
 
             })
         }
-        */
-        
+        *********************************************** */
+
         feedImageView.alpha = 1
         
         scrollView.contentInset.top = 0
@@ -72,6 +83,9 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     
     @IBAction func tapPhotoOpen(tapedImage: UITapGestureRecognizer) {
         clickedImage = tapedImage.view as UIImageView!
+        // need to be able to detect which image was tapped....
+        whichImage = clickedImage.tag
+        
         performSegueWithIdentifier("viewPhotoSegue", sender: self)
     }
     
@@ -81,7 +95,17 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             var destinationViewController = segue.destinationViewController as PhotoViewController
             destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
             destinationViewController.transitioningDelegate = self
+            
             destinationViewController.image = self.clickedImage.image
+            destinationViewController.whichImage = self.whichImage
+            
+            destinationViewController.imageCount = 5
+            destinationViewController.images.append(self.imageOne.image!)
+            destinationViewController.images.append(self.imageTwo.image!)
+            destinationViewController.images.append(self.imageThree.image!)
+            destinationViewController.images.append(self.imageFour.image!)
+            destinationViewController.images.append(self.imageFive.image!)
+
         default:
             println("I... am only ready for the segue to the photo detail view")
         }
@@ -124,14 +148,16 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             
         } else {
             var window = UIApplication.sharedApplication().keyWindow
+            var photoViewController = fromViewController as PhotoViewController
+            
+            
             var copyImageView = UIImageView(image: clickedImage.image)
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
             copyImageView.clipsToBounds = true
-            var photoViewController = fromViewController as PhotoViewController
             
             copyImageView.frame.size.width = 320
             copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
-            copyImageView.center.y = window.center.y - photoViewController.offset
+            copyImageView.center.y = window.center.y - photoViewController.scrollOffset
             window.addSubview(copyImageView)
             
             fromViewController.view.alpha = 0

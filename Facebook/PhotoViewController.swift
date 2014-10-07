@@ -15,8 +15,13 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var controlsImageView: UIImageView!
     
+    var imageViews = [UIImageView]()
+    
     var image: UIImage!
-    var offset: CGFloat!
+    var images = [UIImage]()
+    var imageCount: Int = 0
+    var whichImage: Int = 0
+    var scrollOffset: CGFloat!
     var scale: CGFloat!
     var originalOrigin: CGPoint!
     
@@ -25,34 +30,46 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         
         imageView.image = self.image
         imageView.hidden = true
-        
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
-        
         imageView.center = view.center
         
-        scrollView.contentSize = CGSize(width: 320, height: 570)
+        
+        for i in 0...(imageCount-1) {
+            imageViews.append(UIImageView(image: images[i]))
+            imageViews[i].hidden = true
+            imageViews[i].contentMode = UIViewContentMode.ScaleAspectFit
+            
+            imageViews[i].frame.size.width = 320
+            imageViews[i].frame.size.height = 320 * (imageViews[i].image!.size.height / imageViews[i].image!.size.width)
+            imageViews[i].center.x = view.center.x + (CGFloat(320.0 * i))
+            imageViews[i].center.y = view.center.y
+            scrollView.addSubview(imageViews[i])
+        }
+        
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 3
+        scrollView.pagingEnabled = true
+        scrollView.contentSize = CGSize(width: 320*imageCount, height: 570)
+
         view.backgroundColor = UIColor (white: 0.0, alpha: 0.0)
-        offset = 0
+        scrollOffset = 0
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        imageView.hidden = false
+        for i in 0...(imageCount-1) {
+            imageViews[i].hidden = false
+        }
     }
 
     func viewForZoomingInScrollView(scrollView: UIScrollView!) -> UIView! {
         return imageView
     }
     
-    override func viewDidAppear(animated: Bool) {
-        imageView.hidden = false
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func scrollViewDidScroll(scrollView: UIScrollView!) {
-        offset = scrollView.contentOffset.y
-        scrollView.backgroundColor = UIColor(white: 0, alpha: ((100-abs(offset))/100))
+        scrollOffset = scrollView.contentOffset.y
+        scrollView.backgroundColor = UIColor(white: 0, alpha: ((100-abs(scrollOffset))/100))
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
@@ -64,7 +81,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView!,
         willDecelerate decelerate: Bool) {
-            if (abs(offset) > 100) {
+            if (abs(scrollOffset) > 100) {
                 dismissViewControllerAnimated(true, completion: nil)
             }
     }
@@ -78,4 +95,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
 }
