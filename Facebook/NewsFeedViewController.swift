@@ -17,13 +17,11 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     var isPresenting: Bool = true
     var clickedImage: UIImageView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         feedImageView.alpha = 0
         scrollView.contentSize = CGSizeMake(320, feedImageView.image!.size.height)
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,8 +75,6 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         performSegueWithIdentifier("viewPhotoSegue", sender: self)
     }
     
-    
-    
     override func prepareForSegue(segue: (UIStoryboardSegue!), sender: AnyObject!) {
         switch segue.identifier {
         case "viewPhotoSegue":
@@ -90,7 +86,6 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             println("I... am only ready for the segue to the photo detail view")
         }
     }
-    
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         // The value here should be the duration of the animations scheduled in the animationTransition method

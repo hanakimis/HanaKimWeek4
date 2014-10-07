@@ -32,6 +32,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
         
         scrollView.contentSize = CGSize(width: 320, height: 570)
         scrollView.delegate = self
+        scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 3
         view.backgroundColor = UIColor (white: 0.0, alpha: 0.0)
         offset = 0
