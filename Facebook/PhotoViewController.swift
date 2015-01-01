@@ -40,7 +40,7 @@ class PhotoViewController: UIViewController, UIScrollViewDelegate {
             
             imageViews[i].frame.size.width = 320
             imageViews[i].frame.size.height = 320 * (imageViews[i].image!.size.height / imageViews[i].image!.size.width)
-            imageViews[i].center.x = view.center.x + (CGFloat(320.0 * i))
+            imageViews[i].center.x = view.center.x + CGFloat(320.0 * Double(i))
             imageViews[i].center.y = view.center.y
             scrollView.addSubview(imageViews[i])
         }

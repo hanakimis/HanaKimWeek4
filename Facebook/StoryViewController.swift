@@ -43,7 +43,7 @@ class StoryViewController: UIViewController, UIGestureRecognizerDelegate {
             var curveValue = userInfo[UIKeyboardAnimationCurveUserInfoKey] as NSNumber
             var animationCurve = curveValue.integerValue
             
-            UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions.fromRaw(UInt(animationCurve << 16))!, animations: {
+            UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions(rawValue: UInt(animationCurve << 16)), animations: {
                 self.commentContainer.frame.origin.y = self.view.frame.size.height - kbSize.height - self.commentContainer.frame.size.height
             }, completion: nil)
         })
@@ -59,7 +59,7 @@ class StoryViewController: UIViewController, UIGestureRecognizerDelegate {
             var curveValue = userInfo[UIKeyboardAnimationCurveUserInfoKey] as NSNumber
             var animationCurve = curveValue.integerValue
             
-            UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions.fromRaw(UInt(animationCurve << 16))!, animations: {
+            UIView.animateWithDuration(animationDuration, delay: 0.0, options: UIViewAnimationOptions(rawValue: UInt(animationCurve << 16)), animations: {
                 self.commentContainer.frame.origin.y = self.scrollView.frame.size.height + self.scrollView.frame.origin.y
                 }, completion: nil)
             })

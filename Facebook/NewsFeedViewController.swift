@@ -90,24 +90,26 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
     }
     
     override func prepareForSegue(segue: (UIStoryboardSegue!), sender: AnyObject!) {
-        switch segue.identifier {
-        case "viewPhotoSegue":
-            var destinationViewController = segue.destinationViewController as PhotoViewController
-            destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
-            destinationViewController.transitioningDelegate = self
-            
-            destinationViewController.image = self.clickedImage.image
-            destinationViewController.whichImage = self.whichImage
-            
-            destinationViewController.imageCount = 5
-            destinationViewController.images.append(self.imageOne.image!)
-            destinationViewController.images.append(self.imageTwo.image!)
-            destinationViewController.images.append(self.imageThree.image!)
-            destinationViewController.images.append(self.imageFour.image!)
-            destinationViewController.images.append(self.imageFive.image!)
-
-        default:
-            println("I... am only ready for the segue to the photo detail view")
+        if let id = segue.identifier {
+            switch id {
+            case "viewPhotoSegue":
+                var destinationViewController = segue.destinationViewController as PhotoViewController
+                destinationViewController.modalPresentationStyle = UIModalPresentationStyle.Custom
+                destinationViewController.transitioningDelegate = self
+                
+                destinationViewController.image = self.clickedImage.image
+                destinationViewController.whichImage = self.whichImage
+                
+                destinationViewController.imageCount = 5
+                destinationViewController.images.append(self.imageOne.image!)
+                destinationViewController.images.append(self.imageTwo.image!)
+                destinationViewController.images.append(self.imageThree.image!)
+                destinationViewController.images.append(self.imageFour.image!)
+                destinationViewController.images.append(self.imageFive.image!)
+                
+            default:
+                println("I... am only ready for the segue to the photo detail view")
+            }
         }
     }
     
@@ -123,13 +125,13 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
         
         if (isPresenting) {
             var window = UIApplication.sharedApplication().keyWindow
-            var thisFrame = window.convertRect(clickedImage.frame, fromView: scrollView)
-            var copyImageView = UIImageView(frame: thisFrame)
+            var thisFrame = window?.convertRect(clickedImage.frame, fromView: scrollView)
+            var copyImageView = UIImageView(frame: thisFrame!)
             
             copyImageView.image = clickedImage.image
             copyImageView.clipsToBounds = true
             copyImageView.contentMode = UIViewContentMode.ScaleAspectFill
-            window.addSubview(copyImageView)
+            window?.addSubview(copyImageView)
             
             containerView.addSubview(toViewController.view)
             toViewController.view.alpha = 0
@@ -137,7 +139,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 copyImageView.frame.size.width = 320
                 copyImageView.frame.size.height = 320 * (copyImageView.image!.size.height / copyImageView.image!.size.width)
-                copyImageView.center = window.center
+                copyImageView.center = window!.center
                 
                 toViewController.view.alpha = 1
                 
@@ -147,7 +149,7 @@ class NewsFeedViewController: UIViewController, UIViewControllerTransitioningDel
             }
             
         } else {
-            var window = UIApplication.sharedApplication().keyWindow
+            var window = UIApplication.sharedApplication().keyWindow!
             var photoViewController = fromViewController as PhotoViewController
             var copyImageView: UIImageView!
             var toFrame: CGRect!
